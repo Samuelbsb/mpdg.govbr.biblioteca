@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+
+.easy-tabs .tabs {
+	margin-bottom: 15px;
+	border-bottom: 1px solid;
+}
+
+.easy-tabs .tabs a {
+	display: inline-block;
+    padding: 15px 20px;
+    background: #F3F3F3;
+    border: 1px solid;
+    color: #000000 !important;
+}
+
+.easy-tabs .tabs a.selected { background-color: #FFF; }
+
+.easy-tabs .navigation-bibliotecatiles { padding: 0 10px 5px 10px; }
+.easy-tabs .top .navigation-bibliotecatiles {
+	margin-bottom: 20px;
+	border-bottom: 1px solid;
+}
+
+.easy-tabs .bot .navigation-bibliotecatiles {
+    margin-top: 20px;
+}
+
+.easy-tabs .container-replies .actions {
+	margin-bottom: 10px;
+}
+
+.easy-tabs .container-replies table {
+	border: 1px solid;
+}
+
+.easy-tabs .container-replies table td.select-reply {
+    background: #F3F3F3;
+}

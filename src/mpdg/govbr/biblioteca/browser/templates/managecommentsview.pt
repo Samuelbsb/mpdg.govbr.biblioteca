@@ -1,0 +1,178 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="mpdg.govbr.biblioteca">
+
+    <body>
+       
+        <metal:main fill-slot="main" >
+
+            <div id="viewlet-above-content-title" tal:content="structure provider:plone.abovecontenttitle" tal:condition="not:ajax_load" />
+            <metal:title define-slot="content-title">
+                <a tal:attributes="href context/absolute_url">
+                    <h2 tal:content="context/Title"></h2>
+                </a>
+            </metal:title>
+            
+            <div id="viewlet-above-content-body" tal:content="structure provider:plone.abovecontentbody" tal:condition="not:ajax_load" />
+            
+            <div class="content-core"
+                 tal:define="data view/getDataToView;
+                             pending_replies data/pending_replies;
+                             history_replies data/history_replies;">
+                
+                <div class="easy-tabs">
+                                 
+                    <div class="tabs">
+                        <a href="#" tab-ref="pendentes">Pendentes</a>
+                        <a href="#" tab-ref="historico">Histórico</a>
+                    </div>
+                    
+                    <div class="content-tabs"
+                         tal:define="Batch python:modules['Products.CMFPlone'].Batch;
+                                     bibliotecatilesbatchview nocall:context/@@bibliotecatilesbatchview;">
+                         
+                        <div id="pendentes" tal:attributes="ajax-content id_ajax;" tab-content="pendentes"
+                             tal:define="b_size request/b_size|python:10;
+                                         b_start python:0;
+                                         b_start request/b_start | b_start;
+                                         batch python:Batch(pending_replies, b_size, int(b_start));
+                                         id_ajax string:pendentes">
+                            
+                            <div class="top">       
+                                <tal:bibliotecatilesbatchview replace="structure python:bibliotecatilesbatchview(batch, show_page_range=True, ajaxcontentid=id_ajax)"></tal:bibliotecatilesbatchview>
+                            </div>
+                                               
+                            <div class="container-replies">
+                                
+                                <form class="use-ajax">
+                                    
+                                    <div class="actions"
+                                         tal:define="base_url request/ACTUAL_URL">
+                                         
+                                        <a href="#" class="check-all" id="replies">Selecionar todos</a>
+                                        <span> | </span>
+                                        <a href="#" name="approve"
+                                           tal:attributes="ajax-url base_url;
+                                                           ajax-id id_ajax;
+                                                           ajax-filter id_ajax;">
+                                            Aprovar
+                                        </a>
+                                        <span> | </span>
+                                        <a href="#" name="reprove"
+                                           tal:attributes="ajax-url base_url;
+                                                           ajax-id id_ajax;
+                                                           ajax-filter id_ajax;">
+                                            Reprovar
+                                        </a>
+                                    </div>
+                                    
+                                    <table width="100%">
+                                        <tal:getreplies repeat="reply batch">
+                                            <tr>
+                                                <td width="20" class="select-reply reply-content">
+                                                    <input type="checkbox" name="replies"
+                                                           tal:attributes="value reply/id" />
+                                                </td>
+                                                
+                                                <td class="reply-content">
+                                                    <div tal:define="name reply/name;
+                                                                     email reply/email;
+                                                                     user_url reply/user_url;">
+                                                        <div class="info">
+                                                            <tal:name>
+                                                                <strong>
+                                                                    <tal:cond condition="user_url">
+                                                                        <a href=""
+                                                                           tal:content="name|email|username|nothing"
+                                                                           tal:attributes="href user_url">
+                                                                            Poster Name
+                                                                        </a>
+                                                                    </tal:cond>
+                                                                    
+                                                                    <tal:cond condition="not:user_url">
+                                                                        <span tal:content="name|email|username|nothing">
+                                                                            Poster Name
+                                                                        </span>
+                                                                    </tal:cond>
+                                                                </strong>  
+                                                                | <span>Postado em <span tal:replace="reply/created"></span></span>
+                                                            </tal:name>
+                                                        </div>
+                                        
+                                                        <div class="text">
+                                                            <p tal:replace="structure reply/text"></p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tal:getreplies>
+                                    </table>
+                                </form>
+                            </div>
+                            
+                            <div class="bot">
+                                <tal:bibliotecatilesbatchview replace="structure python:bibliotecatilesbatchview(batch, show_page_range=True, ajaxcontentid=id_ajax)"></tal:bibliotecatilesbatchview>
+                            </div>
+                        </div>
+                        
+                        <div id="historico" tal:attributes="ajax-content id_ajax;" tab-content="historico"
+                             tal:define="b_size request/b_size|python:10;
+                                         b_start python:0;
+                                         b_start request/b_start | b_start;
+                                         batch python:Batch(history_replies, b_size, int(b_start));
+                                         id_ajax string:historico">
+                            
+                            <div class="top">
+                                <tal:bibliotecatilesbatchview replace="structure python:bibliotecatilesbatchview(batch, show_page_range=True, ajaxcontentid=id_ajax)"></tal:bibliotecatilesbatchview>
+                            </div>
+                                               
+                            <div class="container-replies">
+                                <tal:getreplies repeat="reply batch">
+                                    <div class="reply-content" tal:define="name reply/name;
+                                                                           email reply/email;
+                                                                           user_url reply/user_url;">
+                                        <div class="info">
+                                            <tal:name>
+                                                <strong>
+                                                    <tal:cond condition="user_url">
+                                                        <a href=""
+                                                           tal:content="name|email|username|nothing"
+                                                           tal:attributes="href user_url">
+                                                            Poster Name
+                                                        </a>
+                                                    </tal:cond>
+                                                    
+                                                    <tal:cond condition="not:user_url">
+                                                        <span tal:content="name|email|username|nothing">
+                                                            Poster Name
+                                                        </span>
+                                                    </tal:cond>
+                                                </strong> 
+                                                | <span>Postado em <span tal:replace="reply/created"></span></span>
+                                                | <span tal:content="python: view.getLabelStatus(reply)" 
+                                                        tal:attributes="class reply/class_status"></span>
+                                            </tal:name>
+                                        </div>
+                        
+                                        <div class="text">
+                                            <p tal:replace="structure reply/text"></p>
+                                        </div>
+                                    </div>
+                                </tal:getreplies>
+                            </div>
+                            
+                            <div class="bot">
+                                <tal:bibliotecatilesbatchview replace="structure python:bibliotecatilesbatchview(batch, show_page_range=True, ajaxcontentid=id_ajax)"></tal:bibliotecatilesbatchview>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </metal:main>
+    </body>
+</html>

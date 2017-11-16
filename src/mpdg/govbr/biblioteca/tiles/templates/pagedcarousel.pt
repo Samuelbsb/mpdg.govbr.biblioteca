@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="mpdg.govbr.biblioteca">
+
+<head>
+    <script type="text/javascript" 
+            src="" 
+            tal:attributes="src string:${context/absolute_url|nothing}/++resource++mpdg.govbr.biblioteca/js/pagedcarousel.js"></script>
+</head>
+
+
+<body tal:define="data view/get_dados;
+                  results data/list|nothing;
+                  uuid view/id">
+
+    <div class="tile-content"
+         tal:condition="results">
+        <div class="tile-pagedcarousel">
+
+            <div tal:attributes="ajax-content string:content-batch-${uuid}" >
+
+                <div class="clearfix" tal:define="Batch python:modules['Products.CMFPlone'].Batch;
+                                                  b_size python:3;
+                                                  b_start python:0;
+                                                  b_start request/b_start | b_start;
+                                                  batch python:Batch(results, b_size, int(b_start));">
+
+                    <tal:bibliotecatilesbatchview define="bibliotecatilesbatchview nocall:context/@@bibliotecatilesbatchview;
+                                                   ajaxid string:content-batch-${uuid}"
+                        replace="structure python:bibliotecatilesbatchview(batch, ajaxcontentid=ajaxid)" />
+
+                    <tal:rep tal:repeat="item batch">
+                        <div tal:attributes="class python:'cell width-5 position-%s' % (repeat['item'].index*5)" class="">
+                            <tal:def define="portal_type item/portal_type;">
+
+                                <p tal:content="item/generic_type">CARTILHA</p>
+
+                                <div class="title-item">
+                                    <h4><a tal:attributes="href item/url|nothing" tal:content="item/title|nothing"></a></h4>
+                                </div>
+
+                                <div class="container-info">
+                                    <div class="ico-filetype-area" tal:condition="python:portal_type == 'ArquivoBiblioteca'">
+                                        <a tal:attributes="href item/download|nothing"><span tal:content="item/content_type"></span></a>
+                                    </div>
+
+                                    <div class="info-item" tal:define="access item/access|nothing;">
+                                        <span>Adicionado em: <span tal:replace="item/created|nothing"></span></span>
+                                        <span>Acessos: <span tal:replace="python: (access) and access or '0'"></span></span>
+                                        <tal:cond condition="python:portal_type=='ArquivoBiblioteca'">
+                                            <span>Tamanho: <span tal:replace="item/file_size|nothing"></span></span>
+                                        </tal:cond>
+                                    </div>
+                                </div>
+                            </tal:def>
+                        </div>
+                    </tal:rep>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

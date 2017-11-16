@@ -1,0 +1,30 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="mpdg.govbr.biblioteca">
+
+  <!-- Views -->
+  <browser:page
+        for="*"
+        name="bibliotecatilesbatchview"
+        class=".bibliotecatilesbatchview.BibliotecaTilesBatchView"
+        permission="zope2.View"
+        allowed_attributes=""
+        />
+
+  <browser:page
+      name="autocompletevcge-search"
+      for="*"
+      permission="zope.Public"
+      class=".autocompletevcge.AutocompleteSearchVcge"
+      />
+
+  <browser:page
+      name="autocompletevcge-populate"
+      for="*"
+      permission="zope.Public"
+      class=".autocompletevcge.AutocompletePopulateVcge"
+      />
+
+</configure>

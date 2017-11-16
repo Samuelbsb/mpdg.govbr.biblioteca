@@ -1,0 +1,45 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="mpdg.govbr.biblioteca">
+
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <includeDependencies package="." />
+
+  <include package=".tiles" />
+  <include package=".browser" />
+  <include package="five.grok" />
+
+  <grok:grok package="." />
+
+  <include file="profiles.zcml" />
+  <include file="upgrades.zcml" />
+
+  <!-- adapters -->
+  <adapter factory=".adapters.BlobbableArquivoBiblioteca" />
+
+  <browser:resourceDirectory
+      name="mpdg.govbr.biblioteca"
+      directory="static"
+      />
+
+<subscriber
+    for=".content.interfaces.IArquivoBiblioteca
+         Products.Archetypes.interfaces.IObjectEditedEvent"
+    handler=".events.renameArqBiblioteca"
+    />
+
+<!-- permissoes -->
+
+  <permission
+      id="mpdg.govbr.biblioteca.AddArquivoBiblioteca"
+      title="mpdg.govbr.biblioteca: Add ArquivoBibliteca"
+      />
+
+</configure>

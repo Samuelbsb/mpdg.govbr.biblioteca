@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts" purge="False">
+
+  <javascript id="++resource++mpdg.govbr.biblioteca/js/mpdg_govbr_biblioteca.js"
+      cacheable="True" compression="none" cookable="True" enabled="True"
+      expression="" inline="False" authenticated="False" insert-after="*" />
+
+  <javascript id="++resource++mpdg.govbr.biblioteca/js/easy_tabs.js"
+      cacheable="True" compression="none" cookable="True" enabled="True"
+      expression="" inline="False" authenticated="False" insert-after="*" />
+      
+  <javascript id="++resource++mpdg.govbr.biblioteca/js/checkall.js"
+      cacheable="True" compression="none" cookable="True" enabled="True"
+      expression="" inline="False" authenticated="False" insert-after="*" />   
+      
+  <javascript id="++resource++mpdg.govbr.biblioteca/js/pagedcarousel.js"
+      cacheable="True" compression="none" cookable="True" enabled="True"
+      expression="context/@@pagedcarousel" inline="False" authenticated="False" insert-after="*" />
+  
+  <javascript id="++resource++mpdg.govbr.biblioteca/js/searchcontents.js"
+      cacheable="True" compression="none" cookable="True" enabled="True"
+      expression="context/@@searchcontents" inline="False" authenticated="False" insert-after="*" />      
+</object>

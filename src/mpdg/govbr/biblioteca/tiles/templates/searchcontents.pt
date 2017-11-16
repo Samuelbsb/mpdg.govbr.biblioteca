@@ -1,0 +1,274 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="mpdg.govbr.biblioteca">
+
+<head>
+    
+    <link rel="stylesheet" type="text/css"
+      tal:attributes="href string:${context/portal_url}/++resource++mpdg.govbr.biblioteca/tablesorter/css/tablesorter.css" />
+    <tal:comment replace="nothing">
+    <!-- Removendo o javascript abaixo até nova implementação menos custosa para o servidor
+    Será sugerido o refactoring do autocomplete na próxima sprint -->
+    <script type="text/javascript" tal:content="structure view/js"></script>
+    </tal:comment>
+    <script type="text/javascript" tal:content="structure view/availableTags"></script>
+    <script type="text/javascript" tal:attributes="src string:${context/portal_url}/++resource++mpdg.govbr.biblioteca/tablesorter/js/jquery.metadata.js"></script>
+    <script type="text/javascript" tal:attributes="src string:${context/portal_url}/++resource++mpdg.govbr.biblioteca/tablesorter/js/jquery.tablesorter.js"></script>
+    <script type="text/javascript" tal:attributes="src string:${context/portal_url}/++resource++mpdg.govbr.biblioteca/tablesorter/js/tablesorter.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var availableTags2 = <tal:block replace="view/availableTags" />;
+            $( "#skos" ).autocomplete({
+              source: availableTags
+            });
+        });
+    </script>
+</head>
+
+<body tal:define="data view/get_dados;
+                  results data/list|nothing;
+                  all_subjects data/all_subjects|nothing;
+                  portal_type_selected data/portal_type_selected|nothing;
+                  is_file python: portal_type_selected == 'ArquivoBiblioteca' and True or False;
+                  uuid view/id">
+    
+    <div class="tile-content">
+        <div class="tile-searchcontents">
+
+            <div class="container-search"
+                 tal:define="id_ajax string:results-${uuid};">
+                
+                <div class="container-filter">
+                    
+                    <form action="" method="GET" class="form-filter use-ajax">
+                        <div class="top-filter clearfix">
+                            <div class="left call-advanced-search">
+                                <a href="javascript:void(0);"><span class="sign">+</span> Refinar Busca</a>
+                            </div>
+                            <!-- <div style="text-align: right;" id="archetypes-fieldname-skos">
+                                <input value="" name="assunto" placeholder="Buscar" type="text">
+                            </div> -->
+                         <!--    <div style="text-align: right;" id="archetypes-fieldname-skos">
+                                    
+                                    <input type="text" name="skos:list"
+                                           id="skos">
+                                    <tal:comment replace="nothing">
+                                    <select multiple="multiple"
+                                            class="blurrable"
+                                            id="skos"
+                                            name="skos:list"
+                                            size="10">
+                                            
+                                      <option selected=""
+                                              tal:repeat="item data/vcge_list"
+                                              tal:attributes="value item/value;"
+                                              tal:content="item/title"
+                                              i18n:translate="" />
+                                    </select>
+                                    </tal:comment>
+                                    
+                                </div> -->
+
+                                <div  style="text-align: right;" id="archetypes-fieldname-skos">
+                                    <input type="text" name="skos:list"
+                                           id="skos" placeholder="Buscar">
+                                    <tal:comment replace="nothing">
+                                    <select multiple="multiple"
+                                            class="blurrable"
+                                            id="skos"
+                                            name="skos:list"
+                                            size="10">
+
+                                      <option selected=""
+                                              tal:repeat="item view/vcge_list"
+                                              tal:attributes="value item/value;"
+                                              tal:content="item/title"
+                                              i18n:translate="" />
+                                    </select>
+                                    </tal:comment>
+
+                                </div>
+                        </div>
+                        
+                        <div class="mid-filter clearfix advanced-search" style="display: none;">
+                            
+                            <div class="cell width-5 position-0">
+                                <div tal:condition="is_file">
+                                    <div>
+                                        <label>Tipo</label>
+                                    </div>
+                                    <div>
+                                        <select name="tipo_arquivo">
+                                            <option value="">Todos</option>
+                                            <tal:rep repeat="item data/all_types">
+                                                <option tal:content="item" tal:attributes="value item;"></option>
+                                            </tal:rep>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <label>Categoria</label>
+                                    </div>
+                                    <div>
+                                        <select name="Subject">
+                                            <option value="">Todos</option>
+                                            <tal:rep repeat="item all_subjects">
+                                                <option tal:content="item" tal:attributes="value item;"></option>
+                                            </tal:rep>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="cell width-5 position-5">
+                                <div tal:condition="is_file">
+                                    <div>
+                                        <label>Formato</label>
+                                    </div>
+                                    <div>
+                                        <select name="file-format">
+                                            <option value="">Todos</option>
+                                            <tal:rep repeat="item data/all_formats">
+                                                <option tal:content="item" tal:attributes="value item;"></option>
+                                            </tal:rep>
+                                        </select>
+                                    </div>
+                                </div>
+ 
+                                <div id="archetypes-fieldname-skos">
+                                    <div>
+                                        <label>Assunto</label>
+                                    </div>
+                                    <input type="text" name="skos:list"
+                                           id="skos">
+                                    <tal:comment replace="nothing">
+                                    <!-- refactoring -->
+                                    <select multiple="multiple"
+                                            class="blurrable"
+                                            id="skos"
+                                            name="skos:list"
+                                            size="10">
+
+                                      <option selected=""
+                                              tal:repeat="item data/vcge_list"
+                                              tal:attributes="value item/value;"
+                                              tal:content="item/title"
+                                              i18n:translate="" />
+                                    </select>
+                                    </tal:comment>
+
+                                </div>
+
+                            </div>
+                            
+                            <div class="cell width-5 position-10">
+                                <div>
+                                    <label>Data de Cadastro</label>
+                                </div>
+                                
+                                <div class="dates-box clearfix">
+                                    
+                                    <div class="left">
+                                        <div>
+                                            <label>início</label>
+                                        </div>
+                                        <div>
+                                            <input type="date" name="date-created-start">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="left">
+                                        <div>
+                                            <label>término</label>
+                                        </div>
+                                        <div>
+                                        <input type="date" name="date-created-end">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bot-filter clearfix">
+                            <div class="buttons-box right">
+                                <input class="searchButton" type="button" name="submitted" value="Buscar" 
+                                       tal:attributes="ajax-url view/url;
+                                                       ajax-id id_ajax;
+                                                       ajax-filter id_ajax;" />
+                            </div>
+                        </div>
+                        
+                    </form>
+                </div>
+                
+                <div class="container-results" 
+                    tal:attributes="ajax-content id_ajax;">
+                     
+                    <div class="results-search" tal:condition="results"
+                          tal:define="Batch python:modules['Products.CMFPlone'].Batch;
+                                      b_size request/b_size|python:10;
+                                      b_start python:0;
+                                      b_start request/b_start | b_start;
+                                      batch python:Batch(results, b_size, int(b_start));">
+                      
+                        <tal:bibliotecatilesbatchview define="bibliotecatilesbatchview nocall:context/@@bibliotecatilesbatchview;"
+                                               replace="structure python:bibliotecatilesbatchview(batch, show_page_range=True, ajaxcontentid=id_ajax)"></tal:bibliotecatilesbatchview>
+                                               
+                        <div class="table-box">
+                            <table class="auto-table tablesorter">
+                                <thead>
+                                    <tr>
+                                        <th tal:condition="is_file" width="100">Formato</th>
+                                        <th>Título</th>
+                                        <th width="100">Data</th>
+                                        <th tal:condition="is_file" width="100">Tamanho</th>
+                                        <!-- <th tal:condition="is_file" width="100">Tipo</th> -->
+                                        
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    
+                                    <tal:rep repeat="item batch">
+                                        <tr>
+                                            <td tal:condition="is_file">
+                                                <div class="ico-filetype-area">
+                                                    <a tal:attributes="href item/download|nothing">
+                                                    <span tal:content="item/content_type">
+                                                        
+                                                    </span>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a tal:attributes="href item/url"><strong tal:content="item/title"></strong></a>
+                                            </td>
+                                           <!--  <td>
+                                               <span tal:content="item/orgparticipantes"></span></td> -->
+                                            <td><span tal:content="item/created"></span></td>
+                                            <td tal:condition="is_file"><span tal:content="item/file_size"></span></td>
+                                        </tr>
+                                    </tal:rep>
+    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="results-empty"
+                         tal:condition="not:results">
+                        
+                        <h3>Não foram encontrados resultados para sua pesquisa.</h3>
+
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>

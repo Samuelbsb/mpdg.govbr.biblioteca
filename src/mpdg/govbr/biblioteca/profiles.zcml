@@ -1,0 +1,28 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+
+  <!-- Register the installation GenericSetup extension profile -->
+  <genericsetup:registerProfile
+      name="default"
+      title="mpdg.govbr.biblioteca: Biblioteca"
+      directory="profiles/default"
+      description="Installs the mpdg.govbr.biblioteca package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <!-- Register the import step -->
+  <genericsetup:importStep
+      name="mpdg.govbr.biblioteca"
+      title="mpdg.govbr.biblioteca special import handlers"
+      description=""
+      handler="mpdg.govbr.biblioteca.setuphandlers.import_various" />
+
+  <genericsetup:importStep
+      name="mpdg.govbr.biblioteca.create_link_biblioteca"
+      title="mpdg.govbr.biblioteca special import handlers"
+      description=""
+      handler="mpdg.govbr.biblioteca.setuphandlers.create_link_biblioteca" />
+
+
+</configure>

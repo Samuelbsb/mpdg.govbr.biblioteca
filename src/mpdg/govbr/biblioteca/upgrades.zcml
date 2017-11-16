@@ -1,0 +1,14 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:gs="http://namespaces.zope.org/genericsetup"
+  i18n_domain="mpdg.govbr.biblioteca">
+
+<gs:upgradeStep
+    title="Update content types namespace"
+    description="Update ArquivoBiblioteca content types to new namespace"
+    source="*"
+    destination="1000"
+    handler=".upgrades.upgrade_biblioteca_namespace.upgrade_arquivo_biblioteca"
+    profile="mpdg.govbr.biblioteca:default" />
+
+</configure>

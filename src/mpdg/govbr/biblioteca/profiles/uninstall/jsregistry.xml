@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts" purge="False">
+  <javascript remove="true"
+              id="++resource++mpdg.govbr.biblioteca/mpdg_govbr_biblioteca..js"
+      />
+</object>

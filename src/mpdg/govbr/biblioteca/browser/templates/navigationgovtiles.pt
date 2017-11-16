@@ -1,0 +1,65 @@
+<!-- Navigation -->
+<tal:bibliotecatilesbatchview define="batch view/batch|nothing;"
+                       condition="batch"
+                       metal:define-macro="navigation">
+    
+    <div class="navigation-bibliotecatiles clearfix"
+         i18n:domain="plone"
+         tal:define="ajaxcontentid view/ajaxcontentid|nothing;">
+        <div class="page-range" tal:condition="view/show_page_range|nothing">
+            <div>
+                <span>Total (<span tal:content="batch/sequence_length"></span>) 
+                | Itens por página 
+                
+                <a tal:attributes="href python:view.make_link(pagesize=10);
+                                   class python: (batch.pagesize == 10) and 'selected' or '';
+                                   ajax-url python:view.make_link(pagesize=10);
+                                   ajax-id ajaxcontentid;
+                                   ajax-filter ajaxcontentid;">10</a>, 
+                <a tal:attributes="href python:view.make_link(pagesize=20);
+                                   class python: (batch.pagesize == 20) and 'selected' or '';
+                                   ajax-url python:view.make_link(pagesize=20);
+                                   ajax-id ajaxcontentid;
+                                   ajax-filter ajaxcontentid;">20</a>, 
+                <a tal:attributes="href python:view.make_link(pagesize=40);
+                                   class python: (batch.pagesize == 40) and 'selected' or '';
+                                   ajax-url python:view.make_link(pagesize=40);
+                                   ajax-id ajaxcontentid;
+                                   ajax-filter ajaxcontentid;">40</a>
+                </span> 
+            </div>
+        </div>
+    
+        <div class="navigation" 
+             tal:condition="python: batch.has_next or batch.has_previous">
+            <!-- Current page -->
+            <span tal:condition="batch/navlist"
+                  tal:omit-tag=""> <span tal:content="batch/pagenumber">Current page number</span> </span>
+    
+            <span>de</span>
+    
+            <span href=""
+                  tal:attributes="href python:view.make_link(batch.lastpage)"
+                  tal:content="batch/lastpage">Last page number</span>
+    
+            <span class="arrow previous"
+                  tal:condition="batch/has_previous"> 
+                <a href=""
+                    tal:attributes="href python:view.make_link(batch.previouspage);
+                    ajax-url python:view.make_link(batch.previouspage);
+                    ajax-id ajaxcontentid;
+                    ajax-filter ajaxcontentid;"> &laquo; </a> 
+            </span>
+    
+            <span class="arrow next"
+                  tal:condition="batch/has_next"> 
+                <a href=""
+                    tal:attributes="href python:view.make_link(batch.nextpage);
+                    ajax-url python:view.make_link(batch.nextpage);
+                    ajax-id ajaxcontentid;
+                    ajax-filter ajaxcontentid;"> &raquo; </a> 
+            </span>
+        </div>
+    </div>
+    
+</tal:bibliotecatilesbatchview>
