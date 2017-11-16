@@ -1,5 +1,6 @@
 mpdg.govbr.biblioteca: Biblioteca
 ====================================
+[![Coverage Status](https://coveralls.io/repos/github/Samuelbsb/mpdg.govbr.biblioteca/badge.svg?branch=master)](https://coveralls.io/github/Samuelbsb/mpdg.govbr.biblioteca?branch=master) [![Build Status](https://travis-ci.org/Samuelbsb/mpdg.govbr.biblioteca.svg?branch=master)](https://travis-ci.org/Samuelbsb/mpdg.govbr.biblioteca)
 
 Introdução
 -----------
