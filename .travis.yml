@@ -10,14 +10,13 @@ cache:
   - parts/node
 
 install:
-  - python bootstrap.py
-  - bin/buildout annotate
-  - bin/buildout
+- bin/buildout annotate
+- bin/buildout
 
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - firefox -v
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- firefox -v
 
 script:
 - bin/code-analysis
