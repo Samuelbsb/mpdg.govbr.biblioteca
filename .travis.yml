@@ -10,6 +10,7 @@ cache:
   - parts/node
 
 install:
+- python bootstrap.py
 - bin/buildout annotate
 - bin/buildout
 
