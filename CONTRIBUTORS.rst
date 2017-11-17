@@ -1,4 +1,4 @@
 Contributors
 ============
 
-- Joabson, joabson.borges2@gmail.com
+- Samuel Carlos, samuel.moraisbsb@gmail.com

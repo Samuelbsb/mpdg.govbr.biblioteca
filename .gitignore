@@ -20,7 +20,7 @@ lib/
 local.cfg
 Makefile
 parts/
-src/mpdg.govbr.faleconosco.egg-info/
+src/mpdg.govbr.biblioteca.egg-info/
 var/
 dist/
 venv
